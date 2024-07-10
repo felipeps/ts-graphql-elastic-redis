@@ -1,0 +1,67 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.2
+    container_name: elasticsearch-container
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - network.host=0.0.0.0
+    ports:
+      - "9200:9200"
+    networks:
+      - elastic
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.2
+    container_name: kibana-container
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - elastic
+  redis:
+    container_name: redir-container
+    image: "redis/redis-stack-server:latest"
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - elastic
+  postgres:
+    container_name: postgres-container
+    image: "postgres:16"
+    restart: always
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_HOST: "postgres"
+    networks:
+      - elastic
+  api:
+    container_name: api-container
+    build: .
+    restart: always
+    image: playvs-api
+    command: npm start
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_HOST: "postgres"
+      REDIS_URI: "redis://redis:6379"
+    volumes:
+      - ./dist:/usr/src/playvs-api/dist
+    ports:
+      - "5050:5050"
+    depends_on:
+      - "postgres"
+      - "redis"
+      - "elasticsearch"
+    networks:
+      - elastic
+networks:
+  elastic:
+    driver: bridge
