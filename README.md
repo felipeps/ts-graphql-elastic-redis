@@ -46,3 +46,15 @@ npm run build
 npm run start
 ```
 Note: You will still need to run the databases in containers.
+
+## Next Steps
+
+Things I would do in a real scenario:
+
+- Add tests
+- Add authentication
+- Add authorization
+- Add Redis cache in a generic middleware
+- Add Redis cache only to top entries
+- Move business logic from resolvers to services
+- Create interfaces to follow SOLID principles
