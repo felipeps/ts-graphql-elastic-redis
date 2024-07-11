@@ -8,16 +8,18 @@ const client = new Client({
   node: env.elasticsearch.node
 })
 
-export const createIndex = () => {
-  client.indices.create({ index: PRODUCT_INDEX }).then(() => {
+export const createIndex = async () => {
+  try {
+    await client.indices.create({ index: PRODUCT_INDEX })
     console.log('Index created')
-  }).catch(err => {
-    if (err.meta.body.error.type === 'resource_already_exists_exception') {
+  } catch (err) {
+    if (err.meta?.body?.error?.type === 'resource_already_exists_exception') {
       console.log('Index already created')
       return
     }
     console.log('Error creating index', err)
-  })
+    throw err
+  }
 }
 
 export const addDocument = async (data: Product): Promise<void> => {

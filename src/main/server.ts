@@ -17,11 +17,6 @@ import { createIndex } from './config/db/product-elasticsearch.js'
 import app from './config/app.js'
 import env from './config/env.js'
 
-await AppDataSource.initialize()
-await connectRedis(env.redis.uri)
-
-createIndex()
-
 const schema = await buildSchema({
   resolvers: [UserResolver, ProductResolver, CategoryResolver]
 })
@@ -29,6 +24,10 @@ const schema = await buildSchema({
 const server = new ApolloServer({
   schema
 })
+
+await AppDataSource.initialize()
+await connectRedis(env.redis.uri)
+await createIndex()
 
 const { url } = await startStandaloneServer(server, {
   listen: { port: env.graphql.port }
@@ -42,5 +41,5 @@ app.get('/elasticsearch/product/name', new ProductController().handleByName)
 app.get('/elasticsearch/product/detail', new ProductController().handleByDetail)
 
 app.listen(env.express.port, () => {
-  console.log(`Express Server running at http://localhost:${env.express.port}`)
+  console.log(`Express Server ready at http://localhost:${env.express.port}`)
 })

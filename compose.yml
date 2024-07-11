@@ -52,14 +52,17 @@ services:
       POSTGRES_PASSWORD: "password"
       POSTGRES_HOST: "postgres"
       REDIS_URI: "redis://redis:6379"
+      ELASTICSEARCH_NODE: "http://elasticsearch:9200"
     volumes:
       - ./dist:/usr/src/playvs-api/dist
     ports:
       - "5050:5050"
+      - "4000:4000"
     depends_on:
       - "postgres"
       - "redis"
       - "elasticsearch"
+      - "kibana"
     networks:
       - elastic
 networks:

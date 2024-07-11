@@ -23,7 +23,7 @@ export class ProductResolver {
       const product = await productRepository.findOneBy({ id })
 
       if (!product) {
-        throw new GraphQLError('Bad Request', { extensions: { code: 'BAD_REQUEST' } })
+        throw new GraphQLError('Product not found', { extensions: { code: 'BAD_REQUEST' } })
       }
 
       await productRepository.delete(product.id)
@@ -44,7 +44,7 @@ export class ProductResolver {
       let product = await productRepository.findOneBy({ id })
 
       if (!product) {
-        throw new GraphQLError('Bad Request', { extensions: { code: 'BAD_REQUEST' } })
+        throw new GraphQLError('Product not found', { extensions: { code: 'BAD_REQUEST' } })
       }
 
       let category: Category | undefined
@@ -53,7 +53,7 @@ export class ProductResolver {
         category = await CategoryRepository.getRepository().findOneBy({ id: categoryId })
 
         if (!category) {
-          throw new GraphQLError('Bad Request', { extensions: { code: 'BAD_REQUEST' } })
+          throw new GraphQLError('Category not found', { extensions: { code: 'BAD_REQUEST' } })
         }
       }
 
@@ -81,13 +81,13 @@ export class ProductResolver {
       const user = await UserRepository.getRepository().findOneBy({ id: userId })
 
       if (!user) {
-        throw new GraphQLError('Bad Request', { extensions: { code: 'BAD_REQUEST' } })
+        throw new GraphQLError('User not found', { extensions: { code: 'BAD_REQUEST' } })
       }
 
       const category = await CategoryRepository.getRepository().findOneBy({ id: categoryId })
 
       if (!category) {
-        throw new GraphQLError('Bad Request', { extensions: { code: 'BAD_REQUEST' } })
+        throw new GraphQLError('Category not found', { extensions: { code: 'BAD_REQUEST' } })
       }
 
       const product = productRepository.create({
