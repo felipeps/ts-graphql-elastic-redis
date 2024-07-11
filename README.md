@@ -10,6 +10,15 @@ The starting point of the API is the `src/main/server.ts` file, where the Apollo
 
 The resolver functions are defined in the `src/domain/modules` folder.
 
+## Stack
+
+- [Node.js](https://nodejs.org/en/)
+- [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
+- [TypeORM](https://typeorm.io/#/)
+- [Postgres](https://www.postgresql.org/)
+- [Redis](https://redis.io/)
+- [Elasticsearch](https://www.elastic.co/)
+
 ## Setup
 
 Install [Docker](https://docs.docker.com/compose/install/) and [Docker Compose](https://docs.docker.com/get-docker/) if you haven't already.
