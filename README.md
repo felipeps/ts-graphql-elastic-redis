@@ -58,3 +58,5 @@ Things I would do in a real scenario:
 - Add Redis cache only to top entries
 - Move business logic from resolvers to services
 - Create interfaces to follow SOLID principles
+
+Although this project doens't contain unit tests, I invite you to check this repository on my [GitHub](https://github.com/felipeps/clean-tdd-api). It's a project that I've built using TDD and Clean Architecture principles.
